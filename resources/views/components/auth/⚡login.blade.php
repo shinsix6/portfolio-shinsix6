@@ -7,7 +7,8 @@ new class extends Component
     public $email = '';
     public $password = '';
 
-    public function login() {
+    public function login() 
+    {
         $credentials = $this->validate([
             'email' => 'required|email',
             'password' => 'required',
