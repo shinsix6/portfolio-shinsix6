@@ -10,6 +10,7 @@ new class extends Component
 
     public $projectId = null;
     public $title = '';
+    public $genre = 'dev_work';
     public $description = null;
     public $image = null;
     public $oldImage = null;
@@ -25,6 +26,7 @@ new class extends Component
     {
         $this->projectId = null;
         $this->title = '';
+        $this->genre = 'dev_work';
         $this->description = null;
         $this->image = null;
         $this->link = '';
@@ -46,6 +48,7 @@ new class extends Component
     {
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
+            'genre' => ['required', 'string', 'in:dev_work,design'],
             'description' => ['required', 'string'],
             'image' => ['required', 'image', 'max:2048'],
             'link' => ['nullable', 'url', 'max:255'],
@@ -55,6 +58,7 @@ new class extends Component
 
         Project::create([
             'title' => $this->title,
+            'genre' => $this->genre,
             'description' => $this->description,
             'image' => $imagePath,
             'link' => $this->link,
@@ -71,6 +75,7 @@ new class extends Component
 
         $this->projectId = $project->id;
         $this->title = $project->title;
+        $this->genre = $project->genre;
         $this->description = $project->description;
         $this->oldImage = $project->image;
         $this->link = $project->link;
@@ -86,6 +91,7 @@ new class extends Component
 
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
+            'genre' => ['required', 'string', 'in:dev_work,design'],
             'description' => ['required', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
             'link' => ['nullable', 'url', 'max:255'],
@@ -104,6 +110,7 @@ new class extends Component
 
         $project->update([
             'title' => $this->title,
+            'genre' => $this->genre,
             'description' => $this->description,
             'image' => $imagePath,
             'link' => $this->link,
@@ -134,7 +141,7 @@ new class extends Component
 
 <div class="d-flex flex-column align-items-center justify-content-center mt-5">
         <div class="mb-2">
-            <h1 class="text fw-bold text-white">Admin Panel</h1>
+            <h1 class="text fw-bold text-white">管理者パネルへようこそ！</h1>
         </div>
 
         @if (session('status'))            
@@ -162,6 +169,26 @@ new class extends Component
                     <div class="mb-3">
                         <label class="form-label">About Project</label>
                         <input type="text" class="form-control" wire:model="description" placeholder="Input project description">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fw-semibold">Project Genre</label>
+                        <select wire:model="genre" class="form-select">
+                            <option value="app_dev">Application Development</option>
+                            <option value="design">Design (Freelancing)</option>
+                        </select>
+                        @error('genre')
+                            <small class="text-danger d-block mt-1">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                     <div class="mb-3">
+                        <label class="form-label">Link (optional)</label>
+                        <input type="text" class="form-control mb-3"  wire:model="link" placeholder="Input link">
+
+                        @error('title')
+                            <small class="text-danger">{{ $message }}</small>                       
+                        @enderror
                     </div>
 
                     <div class="mb-3"
@@ -221,7 +248,8 @@ new class extends Component
             
             <div class="card-body">
                 <div class="row g-3">
-                    @forelse ($this->getProject() as $project)                        
+                    <h2>Work (development)</h2>                        
+                    @forelse ($this->getProject()->where('genre', 'dev_work') as $project)
                         <div class="col-md-4 col-lg-3">
                             <div class="card h-100 shadow-sm">
                                 @if ($project->image)        
@@ -260,7 +288,62 @@ new class extends Component
                                         wire:click="delete({{ $project->id }})"
                                         wire:confirm="Are you sure want to delete this project?"
                                         >
-                                        Hapus
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    
+                    @empty    
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center">
+                                No project data yet.
+                            </div>
+                        </div>
+                    @endforelse
+
+                    <h2>Design</h2>                   
+                    @forelse ($this->getProject()->where('genre', 'design') as $project)     
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100 shadow-sm">
+                                @if ($project->image)        
+                                    <img src="{{ asset('storage/' . $project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                    
+                                @else
+                                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
+                                        No image
+                                    </div>
+                                @endif
+                                
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold">
+                                        {{ $project->title }}
+                                    </h5>
+                                    <p class="small">
+                                        {{ $project->description }}
+                                    </p>
+                                    
+                                    <p class="text-muted small">
+                                        ID: {{ $project->id }}
+                                    </p>
+                                    
+                                    <div class="mt-auto d-flex gap-2">
+                                        <button
+                                        type="button"
+                                            class="btn btn-warning btn-sm w-50"
+                                            wire:click="edit({{ $project->id }})"
+                                            >
+                                            Edit
+                                        </button>
+                                        
+                                        <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm w-50"
+                                        wire:click="delete({{ $project->id }})"
+                                        wire:confirm="Are you sure want to delete this project?"
+                                        >
+                                        Delete
                                     </button>
                                 </div>
                             </div>
