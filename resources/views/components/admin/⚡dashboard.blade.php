@@ -29,6 +29,8 @@ new class extends Component
         $this->image = null;
         $this->link = '';
         $this->isEdit = false;
+
+        $this->resetValidation();
     }
 
     public function saveOrUpdate(): void
@@ -45,7 +47,7 @@ new class extends Component
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'image' => ['required', 'image', 'max:5048'],
+            'image' => ['required', 'image', 'max:2048'],
             'link' => ['nullable', 'url', 'max:255'],
         ]);
 
@@ -85,7 +87,7 @@ new class extends Component
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'max:5048'],
+            'image' => ['nullable', 'image', 'max:2048'],
             'link' => ['nullable', 'url', 'max:255'],
         ]);
 
@@ -130,6 +132,149 @@ new class extends Component
 };
 ?>
 
-<div>
-    
-</div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-5">
+        <div class="mb-2">
+            <h1 class="text fw-bold text-white">Admin Panel</h1>
+        </div>
+
+        @if (session('status'))            
+            <div class="alert alert-success p-3">
+                <p class="mb-0">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <p class="mb-0">{{ $isEdit ? 'Edit Project' : 'Add Project' }}</p>
+            </div>
+
+            <div class="card-body">
+                <form wire:submit.prevent="saveOrUpdate">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control mb-3"  wire:model="title" placeholder="Input title">
+
+                        @error('title')
+                            <small class="text-danger">{{ $message }}</small>                       
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">About Project</label>
+                        <input type="text" class="form-control" wire:model="description" placeholder="Input project description">
+                    </div>
+
+                    <div class="mb-3"
+                        x-data="{ isUploading: false, progress: 0 }" 
+                        x-on:livewire-upload-start="isUploading = true" 
+                        x-on:livewire-upload-finish="isUploading = false" 
+                        x-on:livewire-upload-error="isUploading = false" 
+                        x-on:livewire-upload-progress="progress = $event.detail.progress">
+
+                        <label class="form-label">Thumbnail</label>
+                        <input type="file" wire:model="image" accept="image/*" class="form-control">
+                        
+                        <div x-show="isUploading" class="progress mt-2" style="height: 20px">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                            role="progressbar" 
+                            :style="`width: ${progress}%`"
+                            x-text="`Uploading: ${progress}%`">
+                            </div>
+                        </div>
+
+                        <div wire:loading wire:target="image" class="text-primary small mt-2">
+                            Loading the image...
+                        </div>
+
+                        @error('image')
+                            <small class="text-danger d-block mt-1">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        @if ($image)                    
+                            <p class="">Preview New Thumbnail</p>
+                            <img src="{{ $image->temporaryUrl() }}" class="img-thumbnail" style="width: 160px; height: 220px; object-fit: cover;" alt="Preview new thumbnail">
+                        @elseif ($oldImage)
+                            <p class="">Current Thumbnail</p>
+                            <img src="{{ asset('storage/' . $oldImage) }}" class="img-thumbnail" style="width: 160px; height: 220px; object-fit: cover;" alt="Current thumbnail">
+                        @endif
+                        </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="image">
+                            {{ $isEdit ? 'Update' : 'Save' }}
+                        </button>
+
+                        <button type="button" class="btn btn-secondary" wire:click="resetForm">
+                            Reset
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header text-white" style="background-color: #344150;">List of Projects</div>
+            
+            <div class="card-body">
+                <div class="row g-3">
+                    @forelse ($this->getProject() as $project)                        
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100 shadow-sm">
+                                @if ($project->image)        
+                                    <img src="{{ asset('storage/' . $project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                    
+                                @else
+                                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
+                                        No image
+                                    </div>
+                                @endif
+                                
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold">
+                                        {{ $project->title }}
+                                    </h5>
+                                    <p class="small">
+                                        {{ $project->description }}
+                                    </p>
+                                    
+                                    <p class="text-muted small">
+                                        ID: {{ $project->id }}
+                                    </p>
+                                    
+                                    <div class="mt-auto d-flex gap-2">
+                                        <button
+                                        type="button"
+                                            class="btn btn-warning btn-sm w-50"
+                                            wire:click="edit({{ $project->id }})"
+                                            >
+                                            Edit
+                                        </button>
+                                        
+                                        <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm w-50"
+                                        wire:click="delete({{ $project->id }})"
+                                        wire:confirm="Are you sure want to delete this project?"
+                                        >
+                                        Hapus
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    
+                    @empty    
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center">
+                                No project data yet.
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>

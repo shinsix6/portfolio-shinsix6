@@ -10,9 +10,12 @@
 
         @livewireStyles
     </head>
-    <body>
+    <body style="background-color: #202023">
         {{ $slot }}
 
+        <footer class="mt-5 d-flex align-items-center justify-content-center">
+            <p class="text-white small">@ 2026 shin6. All right reserved</p>
+        </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         @livewireScripts
     </body>
