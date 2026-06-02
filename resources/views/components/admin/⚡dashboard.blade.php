@@ -111,7 +111,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 
         $project->update([
             'title' => $this->title,
-            'genre_id' => $this->genre,
+            'genre_id' => $this->genre_id,
             'description' => $this->description,
             'image' => $imagePath,
             'link' => $this->link,
@@ -141,24 +141,31 @@ new #[Layout('components.layouts.admin')] class extends Component
 };
 ?>
 
-<div class="d-flex flex-column align-items-center justify-content-center m-3 border border-3">
-    <nav class="nav mb-4 w-100 d-flex flex-row mx-auto align-items-center border border-2 p-3 gap-4 bg-white">
-        <a href="/admin/genres" wire:navigate class="d-flex flex-row gap-1 link-underline link-underline-opacity-0">
-            <button class="btn btn-secondary">
-                Manage Genre
-            </button>
-        </a>
-
-        <form action="{{ route('logout') }}" method="POST" class="nav-item m-0 p-0">
-            @csrf
-            <button type="submit" class="btn btn-secondary" style="cursor: pointer;">
-                Logout
-            </button>
-        </form>
+<div class="d-flex flex-column align-items-center justify-content-center">
+    <nav class="nav mb-4 w-100 d-flex flex-row align-items-center sticky-top p-3 justify-content-between" style="background-color: #4a6a8f;">
+        <div class="d-flex flex-row gap-4">
+            <a href="/dashboard" wire:navigate class="d-flex flex-row gap-1 link-underline link-underline-opacity-0">
+                <button class="btn bg-white">
+                    Dashboard
+                </button>
+            </a>
+            
+            <a href="/admin/genres" wire:navigate class="d-flex flex-row gap-1 link-underline link-underline-opacity-0">
+                <button class="btn bg-white">
+                    Manage Genre
+                </button>
+            </a>
+            
+            <form action="{{ route('logout') }}" method="POST" class="nav-item m-0 p-0">
+                @csrf
+                <button type="submit" class="btn bg-white" style="cursor: pointer;">
+                    Logout
+                </button>
+            </form>
+        </div>
+        <h4 class="text fw-bold text-white">管理者パネルへようこそ！</h4>
     </nav>
-    <div class="mb-2">
-        <h1 class="text fw-bold text-white">管理者パネルへようこそ！</h1>
-    </div>
+
 
     @if (session('status'))            
         <div class="alert alert-success p-3">
@@ -258,12 +265,12 @@ new #[Layout('components.layouts.admin')] class extends Component
 
     </div>
 
-    <div class="card shadow-sm mb-5">
-        <div class="card-header text-white" style="background-color: #344150;">List of Projects</div>
+    <div class="card shadow-sm mb-5" style="background-color: transparent;">
+        <div class="card-header text-white rounded-0" style="background-color: #344150;">List of Projects</div>
         
         <div class="card-body">
             <div class="row g-3">
-                <h2>Work (development)</h2>                        
+                <h2 class="text-white">Work (development)</h2>                        
                 @forelse ($this->getProject()->where('genre.slug', 'work-dev') as $project)
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">
@@ -318,7 +325,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     </div>
                 @endforelse
 
-                <h2>Design</h2>                   
+                <h2 class="text-white">Design</h2>                   
                 @forelse ($this->getProject()->where('genre.slug', 'design') as $project)     
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">

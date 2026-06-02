@@ -18,16 +18,18 @@ new class extends Component
         <div class="row gx-3 gy-4 p-3 rounded-3 mx-0" style="background-color: #4d4d5b30;">   
             @foreach ($this->getProjects()->where('genre.slug', 'work-dev') as $project)
                 <div class="col-6 d-flex flex-column align-items-center text-center">
-                    @if ($project->image)
-                        <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100 m-0 p-0" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
-                    @endif
-                    <h5 class="card-title fw-bold mt-2">
-                        {{ $project->title }}
-                    </h5>
-                    <p class="small w-100 mt-1">
-                        {{ $project->description }}
-                    </p>
-                </div> 
+                        <a href="{{ $project->link }}" target="_blank">
+                            @if ($project->image)
+                                <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100 m-0 p-0" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
+                            @endif
+                            <h5 class="card-title fw-bold mt-2">
+                                {{ $project->title }}
+                            </h5>
+                            <p class="small w-100 mt-1">
+                                {{ $project->description }}
+                            </p>
+                        </a>
+                    </div> 
             @endforeach
         </div>
     </div>
@@ -37,16 +39,18 @@ new class extends Component
         <div class="row gx-3 gy-4 p-2 rounded-3 mx-0" style="background-color: #4d4d5b30;">   
             @foreach ($this->getProjects()->where('genre.slug', 'design') as $project)
                 <div class="col-6 d-flex flex-column align-items-center text-center">
-                    @if ($project->image)
-                        <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
-                    @endif
-                    <h5 class="card-title fw-bold mt-2">
-                        {{ $project->title }}
-                    </h5>
-                    <p class="small w-100 mt-1">
-                        {{ $project->description }}
-                    </p>
-                </div> 
+                        <a href="{{ $project->link }}" target="_blank">
+                            @if ($project->image)
+                            <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
+                            @endif
+                            <h5 class="card-title fw-bold mt-2">
+                                {{ $project->title }}
+                            </h5>
+                            <p class="small w-100 mt-1">
+                                {{ $project->description }}
+                            </p>
+                        </a>
+                    </div> 
             @endforeach
         </div>
     </div>
