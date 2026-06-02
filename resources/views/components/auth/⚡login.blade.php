@@ -1,8 +1,9 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
-new class extends Component
+new #[Layout('components.layouts.admin')] class extends Component
 {
     public $email = '';
     public $password = '';
