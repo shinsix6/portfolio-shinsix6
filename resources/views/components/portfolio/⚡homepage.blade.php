@@ -43,7 +43,7 @@ new class extends Component
                 </div>
                 <div class="d-flex flex-row gap-5">
                     <span class="fs-6 fw-bold">2021</span>
-                    <span class="fs-6">Completed Graphic - Web Design Course at 日本コンピュータ専門学校 | 大阪, Osaka</span>
+                    <span class="fs-6">Attend Graphic - Web Design Course at 日本コンピュータ専門学校 | 大阪, Osaka</span>
                 </div>
                 <div class="d-flex flex-row gap-0">
                     <span class="fs-6 fw-bold">2023 ~ Present</span>

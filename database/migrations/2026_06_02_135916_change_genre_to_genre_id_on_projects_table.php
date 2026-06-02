@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('genre'); // Drops yesterday's column
+            $table->dropColumn('genre'); 
             $table->foreignId('genre_id')->nullable()->after('title')->constrained()->nullOnDelete();
         });
     }

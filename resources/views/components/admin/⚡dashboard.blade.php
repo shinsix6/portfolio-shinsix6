@@ -134,7 +134,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 
         session()->flash('success', "Project's data has been deleted.");
 
-        $this->resetForm;
+        $this->resetForm();
     }
     
 
