@@ -22,6 +22,7 @@ new #[Layout('components.layouts.admin')] class extends Component
             session()->flash('error', 'email and password are wrong.');
         }
     }
+    
 };
 ?>
 

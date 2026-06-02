@@ -8,9 +8,14 @@ class Project extends Model
 {
     protected $fillable = [
         'title',
-        'genre',
+        'genre_id',
         'description',
         'image',
         'link',
     ];
+
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
 }
