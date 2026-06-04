@@ -12,7 +12,7 @@ new class extends Component
 };
 ?>
 
-<div class="flex-column mx-auto" style="width: 530px; margin-top: 7em;">
+<div class="flex-column mx-auto" style="max-width: 530px; margin-top: 7em;">
     <div class="d-flex flex-column gap-3">
         <h5 class="fs-5 fw-bold align-self-start">Work</h5>
         <div class="row gx-3 gy-4 p-3 rounded-3 mx-0" style="background-color: #4d4d5b30;">   
