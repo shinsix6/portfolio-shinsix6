@@ -55,7 +55,7 @@ new #[Layout('components.layouts.admin')] class extends Component
             'link' => ['nullable', 'url', 'max:255'],
         ]);
 
-        $imagePath = $this->image->store('project', 'public');
+        $imagePath = $this->image->store('project', 's3');
 
         Project::create([
             'title' => $this->title,
@@ -105,7 +105,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                 Storage::disk('public')->delete($project->image);
             }
 
-            $imagePath = $this->image->store('project', 'public');
+            $imagePath = $this->image->store('project', 's3');
 
         }
 
@@ -246,7 +246,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                         <img src="{{ $image->temporaryUrl() }}" class="img-thumbnail" style="width: 160px; height: 220px; object-fit: cover;" alt="Preview new thumbnail">
                     @elseif ($oldImage)
                         <p class="">Current Thumbnail</p>
-                        <img src="{{ asset('storage/' . $oldImage) }}" class="img-thumbnail" style="width: 160px; height: 220px; object-fit: cover;" alt="Current thumbnail">
+                        <img src="{{ Storage::url($oldImage) }}" class="img-thumbnail" style="width: 160px; height: 220px; object-fit: cover;" alt="Current thumbnail">
                     @endif
                     </div>
 
@@ -275,7 +275,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">
                             @if ($project->image)        
-                                <img src="{{ asset('storage/' . $project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                <img src="{{ Storage::url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
                                 
                             @else
                                 <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
@@ -330,7 +330,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">
                             @if ($project->image)        
-                                <img src="{{ asset('storage/' . $project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                <img src="{{ Storage::url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
                                 
                             @else
                                 <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
