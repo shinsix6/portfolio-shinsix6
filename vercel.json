@@ -8,7 +8,7 @@
     "routes": [
         {
             "src": "/build/(.*)",
-            "dest": "public/build/$1"
+            "dest": "/build/$1"
         },
         {
             "src": "/(.*)",
@@ -16,11 +16,11 @@
         },
         {
             "src": "/assets/(.*)",
-            "dest": "/public/assets/$1"
+            "dest": "/assets/$1"
         },
         {
             "src": "/storage/(.*)",
-            "dest": "/public/storage/$1"
+            "dest": "/storage/$1"
         }
     ],
     "env": {
