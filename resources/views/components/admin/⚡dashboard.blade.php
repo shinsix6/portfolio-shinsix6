@@ -275,7 +275,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">
                             @if ($project->image)        
-                                <img src="{{ Storage::url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                <img src="{{ Storage::disk('s3')->url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
                                 
                             @else
                                 <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
@@ -330,7 +330,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     <div class="col-md-4 col-lg-3">
                         <div class="card h-100 shadow-sm">
                             @if ($project->image)        
-                                <img src="{{ Storage::url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
+                                <img src="{{ Storage::disk('s3')->url($project->image) }}" class="card-img" style="height: 160px; object-fit: cover;" alt="{{ $project->title }}">
                                 
                             @else
                                 <div class="bg-secondary text-white d-flex align-items-center justify-content-center">
