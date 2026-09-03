@@ -113,18 +113,13 @@ new #[Layout('components.layouts.admin')] class extends Component
             }
 
             // $imagePath = $this->image->store('project', 's3');
-            $temptFilename = $this->image->getFilename();
-            $tempS3Path = 'livewire-tmp/' . $temptFilename;
-            
             $filename = $this->image->hashName();
             $imagePath = 'project/' . $filename;
     
-            if (Storage::disk('s3')->exists($tempS3Path)) {
-                Storage::disk('s3')->copy($tempS3Path, $imagePath);
-            } else {
-                abort(500, "Livewire tmp not found in the s3 bucket at:" . $tempS3Path);
-            };
-
+            $tempS3Path = $this->image->getRealPath();
+            $imageBytes = Storage::disk('s3')->get($tempS3Path);
+    
+            Storage::disk('s3')->put($imagePath, $imageBytes);
         }
 
         $project->update([
