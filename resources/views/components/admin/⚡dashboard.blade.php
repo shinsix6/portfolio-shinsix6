@@ -59,7 +59,8 @@ new #[Layout('components.layouts.admin')] class extends Component
         $filename = $this->image->hashName();
         $imagePath = 'project/' . $filename;
 
-        $imageBytes = file_get_contents($this->image->getRealPath());
+        $tempS3Path = $this->image->getRealPath();
+        $imageBytes = Storage::disk('s3')->get($tempS3Path);
 
         Storage::disk('s3')->put($imagePath, $imageBytes);
         
