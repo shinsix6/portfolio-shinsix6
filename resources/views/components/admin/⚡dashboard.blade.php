@@ -57,7 +57,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 
         // $imagePath = $this->image->store('project', 's3');
         $filename = $this->image->hashName();
-        $imagePath = '/project' . $filename;
+        $imagePath = 'project/' . $filename;
 
         $temptPath = $this->image->path();
 
@@ -113,7 +113,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 
             // $imagePath = $this->image->store('project', 's3');
             $filename = $this->image->hashName();
-            $imagePath = '/project' . $filename;
+            $imagePath = 'project/' . $filename;
     
             $temptPath = $this->image->path();
     
