@@ -20,7 +20,7 @@ new class extends Component
                 <div class="col-6 d-flex flex-column align-items-center text-center">
                         <a href="{{ $project->link }}" target="_blank">
                             @if ($project->image)
-                                <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100 m-0 p-0" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
+                                <img src="{{ Storage::disk('s3')->url($project->image) }}" class="rounded-3 w-100 m-0 p-0" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
                             @endif
                             <h5 class="card-title fw-bold mt-2">
                                 {{ $project->title }}
@@ -41,7 +41,7 @@ new class extends Component
                 <div class="col-6 d-flex flex-column align-items-center text-center">
                         <a href="{{ $project->link }}" target="_blank">
                             @if ($project->image)
-                            <img src="{{ asset('storage/' . $project->image) }}" class="rounded-3 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
+                            <img src="{{ Storage::disk('s3')->url($project->image) }}" class="rounded-3 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
                             @endif
                             <h5 class="card-title fw-bold mt-2">
                                 {{ $project->title }}

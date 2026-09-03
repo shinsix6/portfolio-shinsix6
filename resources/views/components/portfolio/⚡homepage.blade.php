@@ -80,7 +80,7 @@ new class extends Component
                         @foreach ($this->getProjects()->take(2) as $project)
                             <div class="col-6 d-flex flex-column align-items-center text-center px-0" style="width: 47%;">
                                 @if ($project->image)
-                                    <img src="{{ asset('storage/' . $project->image) }}" class="rounded-4 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
+                                    <img src="{{ Storage::disk('s3')->url($project->image) }}" class="rounded-4 w-100" style="height: 140px; object-fit: cover;" alt="{{ $project->title }}">
                                 @endif
                                 <h5 class="card-title fw-bold text-center mt-2">
                                     {{ $project->title }}
