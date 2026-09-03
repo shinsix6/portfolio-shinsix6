@@ -55,8 +55,14 @@ new #[Layout('components.layouts.admin')] class extends Component
             'link' => ['nullable', 'url', 'max:255'],
         ]);
 
-        $imagePath = $this->image->store('project', 's3');
+        // $imagePath = $this->image->store('project', 's3');
+        $filename = $this->image->hashName();
+        $imagePath = '/project' . $filename;
 
+        $temptPath = $this->image->path();
+
+        Storage::disk('s3')->copy($temptPath, $imagePath);
+        
         Project::create([
             'title' => $this->title,
             'genre_id' => $this->genre_id,
@@ -102,10 +108,16 @@ new #[Layout('components.layouts.admin')] class extends Component
 
         if ($this->image) {
             if ($project->image) {
-                Storage::disk('public')->delete($project->image);
+                Storage::disk('s3')->delete($project->image);
             }
 
-            $imagePath = $this->image->store('project', 's3');
+            // $imagePath = $this->image->store('project', 's3');
+            $filename = $this->image->hashName();
+            $imagePath = '/project' . $filename;
+    
+            $temptPath = $this->image->path();
+    
+            Storage::disk('s3')->copy($temptPath, $imagePath);
 
         }
 
@@ -127,7 +139,7 @@ new #[Layout('components.layouts.admin')] class extends Component
         $project = Project::findOrFail($id);
 
         if ($project->image) {
-            Storage::disk('public')->delete($project->image);
+            Storage::disk('s3')->delete($project->image);
         }
 
         $project->delete();
